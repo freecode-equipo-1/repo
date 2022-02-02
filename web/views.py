@@ -4,7 +4,7 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from django.utils import timezone
 
-from web.models import Insumo, ReporteInsumo
+from web.models import Insumo, ReporteInsumo, TIPOS_INSUMO
 
 def obtener_reportes_recientes():
     return ReporteInsumo.objects.select_related("insumo").filter(
@@ -18,9 +18,24 @@ def inicio_view(request):
     insumos = Insumo.objects.all()
     reportes = obtener_reportes_recientes()
 
+    # Filtrado
+    if request.method == "POST":
+        data = request.POST
+
+        nombre = data.get("nombre")
+        if nombre:
+            reportes = reportes.filter(insumo__nombre=nombre.strip())
+
+        tipo = int(data.get("tipo", 0))
+        if tipo > 0:
+            reportes = reportes.filter(insumo__tipo=tipo)
+
+        # TODO: Mensaje que indique que estás filtrando
+
     datos = {
         "reportes": reportes,
         "insumos": insumos,
+        "tipos_insumo": TIPOS_INSUMO,
         "mapbox_api_key": settings.MAPBOX_API_KEY,
     }
 

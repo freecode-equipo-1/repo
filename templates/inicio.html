@@ -63,19 +63,20 @@
         <div class="navbar-spacer"></div>
 
         <div>
-            <form>
+            <form action="{% url 'inicio' %}" method="POST">
+                {% csrf_token %}
                 <div class="grid-container halves">
                     <div>
-                        <label for="insumo">Nombre</label>
-                        <input class="u-full-width" type="text" placeholder="Introduce un nombre" id="insumo">
+                        <label for="nombre">Nombre</label>
+                        <input class="u-full-width" type="text" placeholder="Introduce un nombre" id="nombre" name="nombre">
                     </div>
                     <div>
                         <label for="tipo">Tipo</label>
-                        <select class="u-full-width" id="tipo">
-                            <option value="Option 0">Todos</option>
-                            <option value="Option 1">Medicamentos</option>
-                            <option value="Option 2">Exámenes</option>
-                            <option value="Option 3">Operaciones y Tratamientos</option>
+                        <select class="u-full-width" id="tipo" name="tipo">
+                            <option value="0">Todos</option>
+                            {% for tipo, nombre_tipo in tipos_insumo %}
+                            <option value="{{ tipo }}">{{ nombre_tipo }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                 </div>
