@@ -25,6 +25,9 @@
   <link href="{% static 'css/skeleton-legacy.css' %}" rel="stylesheet" media="all">
   <link href="{% static 'css/skeleton-custom.css' %}" rel="stylesheet" media="all">
 
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+
   <!-- Favicon
   ––––––––––––––––––––––––––––––––––––––––––––––––––
   <link rel="icon" type="image/png" href="images/favicon-16.png">
@@ -79,6 +82,81 @@
                 <input class="button-primary" type="submit" value="Buscar">
             </form>
         </div>
+
+        <div id="mapa" style='width: 800px; height: 600px;'></div>
+        <script>
+            mapboxgl.accessToken = '{{ mapbox_api_token }}';
+            var map = new mapboxgl.Map({
+            container: 'mapa',
+            center: [-66.9036, 10.4806],
+            zoom: 12.5,
+            style: 'mapbox://styles/mapbox/streets-v11'
+            });
+
+            map.on('load', () => {
+                map.addSource('places', {
+                    'type': 'geojson',
+                    'data': {
+                        'type': 'FeatureCollection',
+                        'features': [
+                            {% for reporte in reportes %}
+                                {
+                                    'type': 'Feature',
+                                    'properties': {
+                                        'description':
+                                        '<strong>{{ reporte.insumo.nombre }}</strong><p>Costo de {{ reporte.costo }}</p>',
+                                        'icon': 'theatre-15'
+                                    },
+                                    'geometry': {
+                                        'type': 'Point',
+                                        'coordinates': [
+                                            {{ reporte.longitud }},
+                                            {{ reporte.latitud }}
+                                        ]
+                                    }
+                                },
+                            {% endfor %}
+                        ]
+                    }
+                });
+                map.addLayer({
+                    'id': 'places',
+                    'type': 'symbol',
+                    'source': 'places',
+                    'layout': {
+                        'icon-image': '{icon}',
+                        'icon-allow-overlap': true
+                    }
+                });
+
+                // Abrir pop=up (ejemplo tomado de la página de Mapbox)
+                map.on('click', 'places', (e) => {
+                    // Copy coordinates array.
+                    const coordinates = e.features[0].geometry.coordinates.slice();
+                    const description = e.features[0].properties.description;
+
+                    // Ensure that if the map is zoomed out such that multiple
+                    // copies of the feature are visible, the popup appears
+                    // over the copy being pointed to.
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+
+                    new mapboxgl.Popup()
+                    .setLngLat(coordinates)
+                    .setHTML(description)
+                    .addTo(map);
+                });
+
+                // Cursores al entrar y salir de la capa de íconos
+                map.on('mouseenter', 'places', () => {
+                    map.getCanvas().style.cursor = 'pointer';
+                });
+                map.on('mouseleave', 'places', () => {
+                    map.getCanvas().style.cursor = '';
+                });
+            });
+        </script>
 
         <footer role="contentinfo">
             <small>Copyright &copy; <time>2022</time></small>
