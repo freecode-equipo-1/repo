@@ -25,8 +25,13 @@
   <link href="{% static 'css/skeleton-legacy.css' %}" rel="stylesheet" media="all">
   <link href="{% static 'css/skeleton-custom.css' %}" rel="stylesheet" media="all">
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
   <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
   <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
   <!-- Favicon
   ––––––––––––––––––––––––––––––––––––––––––––––––––
@@ -72,7 +77,7 @@
                     </div>
                     <div>
                         <label for="tipo">Tipo</label>
-                        <select class="u-full-width" id="tipo" name="tipo">
+                        <select class="u-full-width dropdown-con-busqueda" id="tipo" name="tipo">
                             <option value="0">Todos</option>
                             {% for tipo, nombre_tipo in tipos_insumo %}
                             <option value="{{ tipo }}">{{ nombre_tipo }}</option>
@@ -167,6 +172,10 @@
                         showUserHeading: true
                     })
                 );
+            });
+
+            $(document).ready(() => {
+                $('.dropdown-con-busqueda').select2();
             });
         </script>
 
