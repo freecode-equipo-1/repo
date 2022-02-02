@@ -30,7 +30,11 @@ SECRET_KEY = 'django-insecure-jq5q6y@%rg8k76z=*_k((qyl)3u$2(95=-!01lqx#p0f!*tm@v
 ENVIRONMENT = os.environ.get("ENVIRONMENT", "local")
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "freecode-equipo-1.herokuapp.com",
+]
 
 
 # Application definition
