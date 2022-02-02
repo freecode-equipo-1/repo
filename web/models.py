@@ -22,7 +22,7 @@ class Insumo(models.Model):
     tipo = models.IntegerField(choices=TIPOS_INSUMO)
 
     def __str__(self):
-        return self.nombre
+        return f"{self.nombre} ({self.get_tipo_display()})"
 
 
 TIPO_REPORTE_NO_VERIFICADO = 1
