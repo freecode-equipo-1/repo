@@ -1,48 +1,91 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="utf-8">
-    <title>Red de Apoyo</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <link href="{% static 'css/normalize.css' %}" rel="stylesheet" media="all">
-    <link href="{% static 'css/styles.css' %}" rel="stylesheet" media="all">
-    <!--[if lt IE 9]><script src="{% static 'js/html5shiv-printshiv.js' %}" media="all"></script><![endif]-->
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>Red Salud</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="{% static 'css/normalize.css' %}" rel="stylesheet" media="all">
+  <link href="{% static 'css/barebones.css' %}" rel="stylesheet" media="all">
+  <link href="{% static 'css/skeleton-legacy.css' %}" rel="stylesheet" media="all">
+  <link href="{% static 'css/skeleton-custom.css' %}" rel="stylesheet" media="all">
+
+  <!-- Favicon
+  ––––––––––––––––––––––––––––––––––––––––––––––––––
+  <link rel="icon" type="image/png" href="images/favicon-16.png">
+  -->
 </head>
 <body>
-    <header role="banner">
-        <h1>Red de Apoyo</h1>
-        <nav role="navigation">
-            <a href="{% url 'inicio' %}">Inicio</a>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <div class="container">
+        <section class="header">
+            <h2 class="title">Red de Apoyo</h2>
+            <div class="value-props row">
+                <div class="four columns value-prop">
+                </div>
+                <div class="four columns value-prop">
+                    <img class="value-img pens" src="{% static 'imagenes/reloj.svg' %}">
+                    Encuentra lo que necesites en tiempo récord
+                </div>
+                <div class="four columns value-prop">
+                </div>
+            </div>
+        </section>
+
+        <div class="navbar-spacer"></div>
+        <nav class="navbar">
+                <div class="container">
+                <ul class="navbar-list">
+                    <li class="navbar-item"><a class="navbar-link" href="{% url 'inicio' %}">Inicio</a></li>
+                  </ul>
+            </div>
         </nav>
-    </header>
+        <div class="navbar-spacer"></div>
 
-    <div class="wrap">
-        <main role="main">
-            <h2>Bienvenido a Red de Apoyo</h2>
-            <p>
-                Somos una aplicación que te permite...
-            </p>
-        </main>
+        <div>
+            <form>
+                <div class="grid-container halves">
+                    <div>
+                        <label for="insumo">Nombre</label>
+                        <input class="u-full-width" type="text" placeholder="Introduce un nombre" id="insumo">
+                    </div>
+                    <div>
+                        <label for="tipo">Tipo</label>
+                        <select class="u-full-width" id="tipo">
+                            <option value="Option 0">Todos</option>
+                            <option value="Option 1">Medicamentos</option>
+                            <option value="Option 2">Exámenes</option>
+                            <option value="Option 3">Operaciones y Tratamientos</option>
+                        </select>
+                    </div>
+                </div>
+                <input class="button-primary" type="submit" value="Buscar">
+            </form>
+        </div>
+
+        <footer role="contentinfo">
+            <small>Copyright &copy; <time>2022</time></small>
+        </footer>
     </div>
 
-    <div class="wrap">
-        <main role="main">
-            <h3>Últimos reportes</h3>
-            {% for reporte in ultimos_reportes %}
-                <p>{{ reporte.insumo.nombre }} ({{ reporte.fecha_hora_reporte }})</p>
-            {% empty %}
-                <p>
-                    Aún no contamos con reportes.
-                </p>
-            {% endfor %}
-        </main>
-    </div>
-
-    <footer role="contentinfo">
-        <small>Copyright &copy; <time>2022</time></small>
-    </footer>
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
 </html>
