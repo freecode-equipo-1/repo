@@ -24,7 +24,9 @@ BASE_DIR = PROJECT_DIR.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-jq5q6y@%rg8k76z=*_k((qyl)3u$2(95=-!01lqx#p0f!*tm@v'
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY", 'django-insecure-jq5q6y@%rg8k76z=*_k((qyl)3u$2(95=-!01lqx#p0f!*tm@v'
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 ENVIRONMENT = os.environ.get("ENVIRONMENT", "local")
@@ -121,7 +123,7 @@ AUTH_USER_MODEL = 'usuarios.Usuario'
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'UTC'
 
