@@ -1,0 +1,48 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <title>Red de Apoyo</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <link href="{% static 'css/normalize.css' %}" rel="stylesheet" media="all">
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" media="all">
+    <!--[if lt IE 9]><script src="{% static 'js/html5shiv-printshiv.js' %}" media="all"></script><![endif]-->
+</head>
+<body>
+    <header role="banner">
+        <h1>Red de Apoyo</h1>
+        <nav role="navigation">
+            <a href="{% url 'inicio' %}">Inicio</a>
+        </nav>
+    </header>
+
+    <div class="wrap">
+        <main role="main">
+            <h2>Bienvenido a Red de Apoyo</h2>
+            <p>
+                Somos una aplicación que te permite...
+            </p>
+        </main>
+    </div>
+
+    <div class="wrap">
+        <main role="main">
+            <h3>Últimos reportes</h3>
+            {% for reporte in ultimos_reportes %}
+                <p>{{ reporte.insumo.nombre }} ({{ reporte.fecha_hora_reporte }})</p>
+            {% empty %}
+                <p>
+                    Aún no contamos con reportes.
+                </p>
+            {% endfor %}
+        </main>
+    </div>
+
+    <footer role="contentinfo">
+        <small>Copyright &copy; <time>2022</time></small>
+    </footer>
+</body>
+</html>
