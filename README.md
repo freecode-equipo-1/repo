@@ -10,3 +10,8 @@ Repositorio para el proyecto del Equipo 1 para el hackathon Freecode Global (Ene
 ## Instrucciones de uso
 
 Puedes ejecutar la aplicación localmente con el comando `python manage.py runserver`, al hacerlo puedes acceder a la página vía `http://localhost:8000`.
+
+## Recursos libres utilizados
+
+- [Skeleton CSS](http://getskeleton.com/) y [Barebones CSS](https://acahir.github.io/Barebones/) para layout lo-fi
+- [Mapbox](https://www.mapbox.com/) para mapas
