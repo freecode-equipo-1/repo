@@ -43,6 +43,8 @@ class ReporteInsumo(models.Model):
     insumo = models.ForeignKey(Insumo, on_delete=models.CASCADE)
     tipo = models.IntegerField(choices=TIPOS_INSUMO)
     costo = models.DecimalField(max_digits=10, decimal_places=2)
+
+    referencia = models.TextField()
     latitud = models.DecimalField(max_digits=10, decimal_places=7)
     longitud = models.DecimalField(max_digits=10, decimal_places=7)
 
