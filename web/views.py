@@ -33,6 +33,8 @@ def geocodificar_direccion(direccion):
         # (latitud, longitud)
         puntos_en_caracas = [
             (10.4806, -66.9036),
+            (10.4821246, -66.8449624),
+            (10.4833701, -66.8498913),
         ]
         return random.choice(puntos_en_caracas)
 

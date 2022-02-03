@@ -53,3 +53,11 @@ class ReporteInsumo(models.Model):
 
     def __str__(self):
         return f"Reporte de {self.insumo.nombre} ({self.fecha_hora_reporte})"
+
+    @property
+    def latitud_mapa(self):
+        return str(self.latitud).replace(",", ".")
+
+    @property
+    def longitud_mapa(self):
+        return str(self.longitud).replace(",", ".")
