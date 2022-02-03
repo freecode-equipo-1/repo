@@ -37,7 +37,7 @@ def geocodificar_direccion(direccion):
         return random.choice(puntos_en_caracas)
 
     # En este punto, tenemos algún resultado y obtenemos sus coordenadas
-    primer_resultado = resultados[0]
+    primer_resultado = resultados[0]["locations"][0]
     return (
         primer_resultado["latLng"]["lat"],
         primer_resultado["latLng"]["lng"],
