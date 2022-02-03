@@ -157,7 +157,7 @@
                                     'type': 'Feature',
                                     'properties': {
                                         'description':
-                                        '<strong>{{ reporte.insumo.nombre }}</strong><p>Costo de {{ reporte.costo|currency }}</p>',
+                                        '<strong>{{ reporte.insumo.nombre }}</strong><p>Costo de {{ reporte.costo|currency }} en {{ reporte.direccion }}<br/>Fecha del reporte: {{ reporte.fecha_hora_reporte|date:"d/m/Y" }}</p>',
                                         'icon': 'information-15'
                                     },
                                     'geometry': {
