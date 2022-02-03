@@ -38,6 +38,8 @@ def geocodificar_direccion(direccion):
         #! y no hay muchas opciones gratuitas para el prototipo.
         #! Si no se encuentra la ubicación, la agregamos a un punto aleatorio
         #! en Caracas.
+        #! En el producto final, pudieramos usar una API paga como la de
+        #! API de Geocoding de Google.
 
         # (latitud, longitud)
         puntos_en_caracas = [
@@ -137,7 +139,5 @@ def agregar_reporte_view(request):
             latitud=latitud,
             longitud=longitud,
         )
-
-        # TODO: mensaje de éxito o error
 
     return redirect("inicio")

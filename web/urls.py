@@ -3,7 +3,7 @@ from django.urls import path, include
 from web import views
 
 urlpatterns = [
-    path('', views.inicio_view, name="inicio"),
+    path('faqs', views.faqs_view, name="faqs"),
     path('reportes/agregar', views.agregar_reporte_view, name="agregar-reporte"),
-    path('faqs', views.agregar_reporte_view, name="faqs"),
+    path('', views.inicio_view, name="inicio"),
 ]
