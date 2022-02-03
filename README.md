@@ -1,6 +1,10 @@
 # repo
 
-Repositorio para el proyecto del Equipo 1 para el hackathon Freecode Global (Enero 2022)
+Repositorio para el proyecto del Equipo 1 para el hackathon Freecode Global (Enero 2022): **Red de Apoyo**.
+
+## Entorno de pruebas
+
+Puedes encontrar el entorno de pruebas [aquí](https://freecode-equipo-1.herokuapp.com/), desplegado en Heroku.
 
 ## Instrucciones de instalación
 
@@ -11,7 +15,8 @@ Repositorio para el proyecto del Equipo 1 para el hackathon Freecode Global (Ene
 
 Puedes ejecutar la aplicación localmente con el comando `python manage.py runserver`, al hacerlo puedes acceder a la página vía `http://localhost:8000`.
 
-## Recursos libres utilizados
+## Recursos utilizados
 
 - [Skeleton CSS](http://getskeleton.com/) y [Barebones CSS](https://acahir.github.io/Barebones/) para layout lo-fi
 - [Mapbox](https://www.mapbox.com/) para mapas
+- [Mapquest](https://www.mapquest.com/) para geocoding
