@@ -37,17 +37,17 @@
                 <form action="{% url 'inicio' %}" method="POST">
                     {% csrf_token %}
                     <div class="select flex-container">
-                        <label class="text" for="tipo">Tipo de información que busca</label>
-                        <select id="tipo" class="u-full-width dropdown-con-busqueda ">
+                        <label class="text" for="tipo">Escribe un nombre y el tipo de insumo que buscas</label>
+                        <select id="tipo" name="tipo" class="u-full-width dropdown-con-busqueda ">
                             <option value="0">Todos</option>
                             {% for tipo, nombre_tipo in tipos_insumo %}
-                                <option value="{{ tipo }}">{{ nombre_tipo }}</option>
+                                <option value="{{ tipo }}" {% if tipo == tipo_filtro %}selected{% endif %}>{{ nombre_tipo }}</option>
                             {% endfor %}
                         </select>
                     </div>
 
                     <div class="searchbar flex-container">
-                        <input type="text" id="insumo" class="insumo" name="nombre" placeholder="Introduce un nombre...">
+                        <input type="text" id="insumo" class="insumo" name="nombre" value="{{ nombre_filtro }}" placeholder="Introduce un nombre...">
                         <input type="submit" class="primary-button busqueda" value="Buscar">
                     </div>
                 </form>

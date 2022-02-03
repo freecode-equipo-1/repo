@@ -68,10 +68,12 @@ def inicio_view(request):
     reportes = obtener_reportes_recientes()
 
     # Filtrado
+    nombre = ""
+    tipo = 0
     if request.method == "POST":
         data = request.POST
 
-        nombre = data.get("nombre")
+        nombre = data.get("nombre", "")
         if nombre:
             reportes = reportes.filter(insumo__nombre__icontains=nombre.strip())
 
@@ -79,11 +81,11 @@ def inicio_view(request):
         if tipo > 0:
             reportes = reportes.filter(insumo__tipo=tipo)
 
-        # TODO: Mensaje que indique que estás filtrando
-
     datos = {
         "reportes": reportes,
         "insumos": insumos,
+        "nombre_filtro": nombre,
+        "tipo_filtro": tipo,
         "tipos_insumo": TIPOS_INSUMO,
         "mapbox_api_key": settings.MAPBOX_API_KEY,
     }
