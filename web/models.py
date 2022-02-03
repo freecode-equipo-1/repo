@@ -34,6 +34,7 @@ TIPOS_REPORTE = (
     (TIPO_REPORTE_OFICIAL, "Oficial"),
 )
 
+
 class ReporteInsumo(models.Model):
     """
     Un reporte de insumo representa un reporte específico de disponibilidad

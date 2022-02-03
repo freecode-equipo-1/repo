@@ -10,17 +10,26 @@ from web.models import Insumo, ReporteInsumo, TIPOS_INSUMO
 
 
 def obtener_reportes_recientes():
+    """
+    Retorna un queryset con los reportes realizados en los últimos
+    14 días.
+    """
+
     return ReporteInsumo.objects.select_related("insumo").filter(
         fecha_hora_reporte__gt=timezone.now() - timedelta(days=14)
     )
 
 
 def geocodificar_direccion(direccion):
+    """
+    Busca una dirección textual en la API de Geocodificación de
+    Mapquest y retorna su latitud y longitud.
+    """
+
     mapquest_key = settings.MAPQUESTAPI_ACCESS_KEY
     url = f"http://www.mapquestapi.com/geocoding/v1/address?key={mapquest_key}&location={direccion}"
 
     response = requests.get(url)
-
     response_dict = response.json()
     resultados = response_dict["results"]
 
@@ -38,7 +47,8 @@ def geocodificar_direccion(direccion):
         ]
         return random.choice(puntos_en_caracas)
 
-    # En este punto, tenemos algún resultado y obtenemos sus coordenadas
+    # En este punto, tenemos algún resultado y obtenemos las coordenadas
+    # del primero
     primer_resultado = resultados[0]["locations"][0]
     return (
         primer_resultado["latLng"]["lat"],
@@ -46,8 +56,12 @@ def geocodificar_direccion(direccion):
     )
 
 
-
 def inicio_view(request):
+    """
+    Controlador de la vista base: muestra el mapa y el buscador,
+    y maneja posibles filtros
+    """
+
     plantilla = "index.html"
 
     insumos = Insumo.objects.all()
@@ -78,11 +92,18 @@ def inicio_view(request):
 
 
 def agregar_reporte_view(request):
+    """
+    Controlador para manejar el formulario de agregar un reporte
+    sobre un insumo. Crea el registro en la base de datos y retorna
+    el buscador nuevamente.
+    """
+
     if request.method == "POST":
         # Esto podría hacerse con los Forms de Django, pero
         # así sale relativamente más rápido para un MVP
         data = request.POST
 
+        # Obtenemos o creamos el insumo
         nombre_insumo = data["insumo"].upper()
         tipo = int(data["tipo"])
         insumo, _ = Insumo.objects.get_or_create(
@@ -90,11 +111,13 @@ def agregar_reporte_view(request):
         )
 
         costo = data["costo"]
+
+        # Ubicación
         direccion = data["direccion"]
         referencia = data["referencia"]
-
         latitud, longitud = geocodificar_direccion(direccion)
 
+        # Creamos el reporte
         ReporteInsumo.objects.create(
             insumo=insumo,
             tipo=tipo,
