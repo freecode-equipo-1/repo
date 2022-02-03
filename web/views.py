@@ -93,6 +93,14 @@ def inicio_view(request):
     return render(request, plantilla, datos)
 
 
+def faqs_view(request):
+    """
+    Muestra la plantilla de FAQs
+    """
+
+    return render(request, "FAQs.html")
+
+
 def agregar_reporte_view(request):
     """
     Controlador para manejar el formulario de agregar un reporte
