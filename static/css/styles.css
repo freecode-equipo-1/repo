@@ -1,0 +1,95 @@
+body {
+    margin: 0;
+}
+
+.wrapper {
+    margin-inline: auto;
+    max-width: 960px;
+    padding-inline: 10px;
+    border: 1px solid red;
+}
+
+header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    block-size: 80px;
+    inline-size: 100%;
+}
+
+.primary-button {
+    block-size: 36px;
+    border-radius: 4px;
+    border: none;
+    padding-inline: 20px;
+    color: #7B7B7B;
+    font-size: 15px;
+}
+
+h1 {
+    text-align: center;
+}
+
+main {
+    margin-block-start: 100px;
+}
+
+.search {
+    margin-block-start: 40px;
+}
+
+form .flex-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-block-start: 10px;
+}
+
+form .busqueda {
+    margin-block-start: 20px;
+}
+
+.select select {
+    appearance: none;
+    font-size: 16px;
+    text-align: center;
+    padding-block: 12px;
+    border: none;
+    border-radius: 10px;
+    padding-inline: 10%;
+    background-image: url(https://img.icons8.com/external-those-icons-lineal-color-those-icons/344/external-arrow-arrows-those-icons-lineal-color-those-icons-1.png);
+    background-size: 12px 12px;
+    background-repeat: no-repeat;
+    background-position: 95% center;
+}
+
+.select select:focus {
+    outline: 0;
+}
+
+.insumo {
+    box-sizing: border-box;
+    font-size: 16px;
+    inline-size: 100%;
+    max-inline-size: 300px;
+    block-size: 45px;
+    border: 1px solid #E3E3E3;
+    border-radius: 22px;
+    padding-inline: 30px;
+    background-image: url(https://cdn-icons.flaticon.com/png/512/2120/premium/2120967.png?token=exp=1643872418~hmac=9afb1c8f3dcc28043412373e15f854eb);
+    background-size: 18px 18px;
+    background-repeat: no-repeat;
+    background-position: 8.5px center;
+}
+
+.insumo:focus {
+    outline: 0;
+}
+
+.mapa {
+    /* Proporción de  2:3 sería mejor para Movile*/
+    /* Proporción de 4:3 sería mejor para Desktop */
+    inline-size: 800px;
+    block-size: 600px;
+}
