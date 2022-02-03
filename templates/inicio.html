@@ -239,7 +239,7 @@
 
             $("#feedback-direccion").text("Buscando...")
             $.ajax({
-                url: `://www.mapquestapi.com/geocoding/v1/address?key={{mapquestapi_access_key}}&location=${val}`
+                url: `https://www.mapquestapi.com/geocoding/v1/address?key={{mapquestapi_access_key}}&location=${val}`
             }).done((data) => {
                 const results = data.results;
 
