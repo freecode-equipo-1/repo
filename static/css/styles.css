@@ -92,6 +92,35 @@ form .busqueda {
     block-size: 600px;
 }
 
+.bg-modal {
+    inline-size: 100%;
+    block-size: 100%;
+    background-color: rgba(0, 0, 0, .7);
+    position: absolute;
+    inset-block-start: 0;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    inline-size: 90%;
+    max-inline-size: 800px;
+    block-size: 90%;
+    max-block-size: 600px;
+    border-radius: 4px;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    inset-inline-end: 10px;
+    font-size: 42px;
+    transform: rotate(45deg);
+    cursor: pointer;
+}
+
 @media screen and (min-width: 960px)  {
     .wrapper {
         max-inline-size: 100%;
