@@ -36,7 +36,7 @@ h1 {
 }
 
 main {
-    margin-block-start: 100px;
+    margin-block-start: 80px;
 }
 
 .container {
@@ -192,4 +192,9 @@ form .busqueda {
 
 .row {
     gap: 1% !important;
+}
+
+.sin-resultados {
+    margin: 20px !important;
+    display: block;
 }

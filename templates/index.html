@@ -53,6 +53,7 @@
                 </form>
             </section>
 
+            {% if reportes %}
             <div class="wrapper-tabla">
                 <h5>Resultados</h5>
                 <table class="datatable">
@@ -72,6 +73,18 @@
                     </tbody>
                 </table>
             </div>
+            {% else %}
+                <div class="sin-resultados">
+                    <p>No encontramos resultados para tu búsqueda en nuestra plataforma, te recomendamos buscar otro término o consultar los siguientes recursos externos:</p>
+                    <ul>
+                        <li><a target="_blank" href="https://farmatodo.com.ve">Farmatodo</a></li>
+                        <li><a target="_blank" href="https://locatel.com.ve">Locatel</a></li>
+                        <li><a target="_blank" href="https://farmarket.com.ve">Farmarket</a></li>
+                        <li><a target="_blank" href="https://farmaciasaas.com">Farmacias SAAS</a></li>
+                        <li><a target="_blank" href="http://www.oncologia.org.ve/">Sociedad Venezolana de Oncología</a></li>
+                    </ul>
+                </div>
+            {% endif %}
         </main>
 
         <footer class="creditos">
