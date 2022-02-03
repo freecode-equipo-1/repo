@@ -22,7 +22,7 @@ class Insumo(models.Model):
     tipo = models.IntegerField(choices=TIPOS_INSUMO)
 
     def __str__(self):
-        return self.nombre
+        return f"{self.nombre} ({self.get_tipo_display()})"
 
 
 TIPO_REPORTE_NO_VERIFICADO = 1
@@ -48,7 +48,6 @@ class ReporteInsumo(models.Model):
     latitud = models.DecimalField(max_digits=10, decimal_places=7)
     longitud = models.DecimalField(max_digits=10, decimal_places=7)
 
-    reportado_por = models.ForeignKey("usuarios.Usuario", on_delete=models.SET_NULL, null=True)
     fecha_hora_reporte = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
