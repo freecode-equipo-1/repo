@@ -198,3 +198,7 @@ form .busqueda {
     margin: 20px !important;
     display: block;
 }
+
+.mapboxgl-popup-close-button {
+    display: none !important;
+}
