@@ -34,6 +34,7 @@ TIPOS_REPORTE = (
     (TIPO_REPORTE_OFICIAL, "Oficial"),
 )
 
+
 class ReporteInsumo(models.Model):
     """
     Un reporte de insumo representa un reporte específico de disponibilidad
@@ -44,6 +45,7 @@ class ReporteInsumo(models.Model):
     tipo = models.IntegerField(choices=TIPOS_INSUMO)
     costo = models.DecimalField(max_digits=10, decimal_places=2)
 
+    direccion = models.TextField()
     referencia = models.TextField()
     latitud = models.DecimalField(max_digits=10, decimal_places=7)
     longitud = models.DecimalField(max_digits=10, decimal_places=7)
@@ -52,3 +54,11 @@ class ReporteInsumo(models.Model):
 
     def __str__(self):
         return f"Reporte de {self.insumo.nombre} ({self.fecha_hora_reporte})"
+
+    @property
+    def latitud_mapa(self):
+        return str(self.latitud).replace(",", ".")
+
+    @property
+    def longitud_mapa(self):
+        return str(self.longitud).replace(",", ".")

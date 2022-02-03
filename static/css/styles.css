@@ -63,6 +63,7 @@ form .busqueda {
 .select select {
     appearance: none;
     font-size: 16px;
+    height: 64px;
     text-align: center;
     padding-block: 12px;
     border: none;
@@ -142,6 +143,10 @@ a:visited {
     padding: 5px;
 }
 
+.modal-content-container {
+    padding: 50px;
+}
+
 .close {
     position: absolute;
     inset-inline-end: 10px;
@@ -165,6 +170,11 @@ a:visited {
         background-color: #fff;
     }
 
+    .contenido {
+        height: 100vh;
+        overflow-y: scroll;
+    }
+
     .mapa {
         position: absolute;
         inset-inline-start: 0;
@@ -179,4 +189,23 @@ a:visited {
     header button {
         margin-inline-end: 5%;
     }
+}
+
+.creditos {
+    display: block;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 12px;
+}
+
+.wrapper-tabla {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 85%;
+}
+
+.row {
+    gap: 1% !important;
 }

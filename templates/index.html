@@ -1,3 +1,5 @@
+{% load static %}
+{% load web_tags %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,93 +7,207 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Red de Apoyo</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/barebones.css' %}">
+    <link rel="stylesheet" href="{% static 'css/skeleton-legacy.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src='//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js'></script>
+    <link href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" rel="stylesheet" />
 </head>
 <body>
-    <div class="wrapper">
-        <div class="container">
+    <div class="wrapper row">
+        <div class="mapa-container u-full-width eight columns">
+            <div id="mapa" class="u-full-width" style="width: 100%; height: 100%;"></div>
+        </div>
+        <div class="four columns contenido">
             <header>
                 <button class="primary-button" id="reporte">¿Tienes alguna información para compartir?</button>
             </header>
-        
-            <main>
-                <h1>Red de Apoyo</h1>
-                
-                <section class="search">
-                    <form action="">
-                        <div class="select flex-container">
-                            <label class="text" for="tipo">Tipo de información que busca</label>
-                            <select id="tipo">
-                                <option value="Option 0">Todos</option>
-                                <option value="Option 1">Medicamentos</option>
-                                <option value="Option 2">Exámenes</option>
-                                <option value="Option 3">Operaciones y Tratamientos</option>
-                            </select>
-                        </div>
 
-                        <div class="searchbar flex-container">
-                            <input type="text" id="insumo" class="insumo">
-                            <input type="submit" class="primary-button busqueda" value="Buscar">
-                        </div>
-                    </form>
-                </section>
-            
-                <div id="mapa" class="mapa"></div>
-                <script src="/static/js/mapa.js"></script>
-            </main>
-    
-            <footer>
-                <a href="/templates/FAQs.html">¿No sabes lo que necesitas para tu caso?</a>
-            </footer>
-    
+            <main>
+            <h1>Red de Apoyo</h1>
+
+            <section class="search">
+                <form action="{% url 'inicio' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="select flex-container">
+                        <label class="text" for="tipo">Tipo de información que busca</label>
+                        <select id="tipo" class="u-full-width dropdown-con-busqueda ">
+                            <option value="0">Todos</option>
+                            {% for tipo, nombre_tipo in tipos_insumo %}
+                                <option value="{{ tipo }}">{{ nombre_tipo }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="searchbar flex-container">
+                        <input type="text" id="insumo" class="insumo" name="nombre" placeholder="Introduce un nombre...">
+                        <input type="submit" class="primary-button busqueda" value="Buscar">
+                    </div>
+                </form>
+            </section>
+
+            <div class="wrapper-tabla">
+                <h5>Resultados</h5>
+                <table class="datatable">
+                    <thead>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Costo</th>
+                    </thead>
+                    <tbody>
+                        {% for reporte in reportes %}
+                            <tr>
+                                <td>{{ reporte.insumo.nombre }}</td>
+                                <td>{{ reporte.insumo.get_tipo_display }}</td>
+                                <td>{{ reporte.costo|currency }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+        <footer class="creditos">
+            Red de Apoyo &copy; 2022. <br/>
+            Creado en 48 horas para el hackatón Freecode Global
+        </footer>
         </div>
 
         <div class="bg-modal">
             <div class="modal-content">
                 <div class="close" id="close">+</div>
-                <h2>Agrega un reporte</h2>
-                <form method="POST" action="{% url 'agregar-reporte' %}">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="four columns">
-                            <label for="insumo">Insumo</label>
-                            <input class="u-full-width" type="text" placeholder="Escribe el nombre" id="insumo" name="insumo" required>
-                            <datalist id="insumo">
-                                {% for insumo in insumos %}
-                                    <option value="{{ insumo.nombre }}">
-                                {% endfor %}
-                            </datalist>
+                <div class="modal-content-container">
+                    <h2>Agrega un reporte</h2>
+                    <form method="POST" action="{% url 'agregar-reporte' %}">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="four columns">
+                                <label for="insumo">Insumo</label>
+                                <input class="u-full-width" list="lista-insumos" type="text" placeholder="Escribe el nombre" id="insumo" name="insumo" required>
+                                <datalist id="lista-insumos">
+                                    {% for insumo in insumos %}
+                                        <option value="{{ insumo.nombre }}">
+                                    {% endfor %}
+                                </datalist>
+                            </div>
+                            <div class="four columns">
+                                <label for="tipo">Tipo</label>
+                                <select class="u-full-width dropdown-con-busqueda" id="tipo_crear" name="tipo" required>
+                                    {% for tipo, nombre_tipo in tipos_insumo %}
+                                    <option value="{{ tipo }}">{{ nombre_tipo }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="four columns">
+                                <label for="costo">Costo</label>
+                                <input class="u-full-width" type="number" min="0" step="0.01" placeholder="Introduce el costo" id="costo" name="costo" required>
+                            </div>
+                            <div class="twelve columns">
+                                <label for="direccion">Dirección</label>
+                                <input class="u-full-width" type="text" placeholder="Escribe la dirección donde lo encontraste" id="direccion" name="direccion" required>
+                            </div>
                         </div>
-                        <div class="four columns">
-                            <label for="tipo">Tipo</label>
-                            <select class="u-full-width dropdown-con-busqueda" id="tipo_crear" name="tipo" required>
-                                {% for tipo, nombre_tipo in tipos_insumo %}
-                                <option value="{{ tipo }}">{{ nombre_tipo }}</option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        <div class="four columns">
-                            <label for="costo">Costo</label>
-                            <input class="u-full-width" type="number" min="0" step="0.01" placeholder="Introduce el costo" id="costo" name="costo" required>
-                        </div>
-                        <div class="ten columns">
-                            <label for="direccion">Dirección</label>
-                            <input class="u-full-width" type="text" placeholder="Escribe la dirección donde lo encontraste" id="direccion" name="direccion" required>
-                        </div>
-                        <div class="two columns">
-                            <input class="button-primary" id="buscar-direccion" type="button" value="Buscar">
-                        </div>
-                    </div>
-                    <small id="feedback-direccion">Busca una ubicación...</small>
-                    <input type="hidden" id="latitud" name="latitud" required>
-                    <input type="hidden" id="longitud" name="longitud" required>
-                    <label for="referencia">Referencia de ubicación</label>
-                    <textarea class="u-full-width" placeholder="Indica una breve descripción de dónde conseguiste el insumo..." id="referencia" name="referencia" required></textarea>
-                    <input class="button-primary" type="submit" value="Agregar">
-                </form>
+                        <label for="referencia">Referencia de ubicación</label>
+                        <textarea class="u-full-width" placeholder="Indica una breve descripción de dónde conseguiste el insumo..." id="referencia" name="referencia" required></textarea>
+                        <input class="primary-button busqueda" type="submit" value="Agregar">
+                    </form>
+                </div>
             </div>
         </div>
-        <script src="/static/js/reporte.js"></script>
+        <script src="{% static 'js/reporte.js' %}"></script>
+        <script type="text/javascript">
+            // Este fragmento debe ir en el archivo principal para
+            // poder utilizar las variables de Django
+            mapboxgl.accessToken = '{{ mapbox_api_key }}';
+            var map = new mapboxgl.Map({
+                container: 'mapa',
+                center: [-66.9036, 10.4806],
+                zoom: 12.5,
+                style: 'mapbox://styles/mapbox/streets-v11'
+            });
+
+            map.on('load', () => {
+                map.addSource('places', {
+                    'type': 'geojson',
+                    'data': {
+                        'type': 'FeatureCollection',
+                        'features': [
+                            {% for reporte in reportes %}
+                                {
+                                    'type': 'Feature',
+                                    'properties': {
+                                        'description':
+                                        '<strong>{{ reporte.insumo.nombre }}</strong><p>Costo de {{ reporte.costo|currency }}</p>',
+                                        'icon': 'information-15'
+                                    },
+                                    'geometry': {
+                                        'type': 'Point',
+                                        'coordinates': [
+                                            {{ reporte.longitud_mapa }},
+                                            {{ reporte.latitud_mapa }},
+                                        ]
+                                    }
+                                },
+                            {% endfor %}
+                        ]
+                    }
+                });
+                map.addLayer({
+                    'id': 'places',
+                    'type': 'symbol',
+                    'source': 'places',
+                    'layout': {
+                        'icon-image': '{icon}',
+                        'icon-allow-overlap': true
+                    }
+                });
+
+                // Abrir pop=up (ejemplo tomado de la página de Mapbox)
+                map.on('click', 'places', (e) => {
+                    // Copy coordinates array.
+                    const coordinates = e.features[0].geometry.coordinates.slice();
+                    const description = e.features[0].properties.description;
+
+                    // Ensure that if the map is zoomed out such that multiple
+                    // copies of the feature are visible, the popup appears
+                    // over the copy being pointed to.
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+
+                    new mapboxgl.Popup()
+                    .setLngLat(coordinates)
+                    .setHTML(description)
+                    .addTo(map);
+                });
+
+                // Cursores al entrar y salir de la capa de íconos
+                map.on('mouseenter', 'places', () => {
+                    map.getCanvas().style.cursor = 'pointer';
+                });
+                map.on('mouseleave', 'places', () => {
+                    map.getCanvas().style.cursor = '';
+                });
+
+                // Permitir al usuario centrar el mapa en su cercanía
+                map.addControl(
+                    new mapboxgl.GeolocateControl({
+                        positionOptions: {
+                            enableHighAccuracy: true
+                        },
+                        trackUserLocation: true,
+                        showUserHeading: true
+                    })
+                );
+            });
+        </script>
     </div>
 </body>
 </html>
