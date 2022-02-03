@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -5,7 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Red de Apoyo</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'css/barebones.css' %}">
+    <link rel="stylesheet" href="{% static 'css/skeleton-legacy.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
     <div class="wrapper">
@@ -13,15 +17,16 @@
             <header>
                 <button class="primary-button" id="reporte">Agregar reporte</button>
             </header>
-        
+
             <main>
             <h1>Red de Apoyo</h1>
-            
+
             <section class="search">
-                <form action="">
+                <form action="{% url 'inicio' %}" method="POST">
+                    {% csrf_token %}
                     <div class="select flex-container">
                         <label class="text" for="tipo">Tipo de información que busca</label>
-                        <select id="tipo">
+                        <select id="tipo" class="u-full-width dropdown-con-busqueda ">
                             <option value="Option 0">Todos</option>
                             <option value="Option 1">Medicamentos</option>
                             <option value="Option 2">Exámenes</option>
@@ -30,16 +35,15 @@
                     </div>
 
                     <div class="searchbar flex-container">
-                        <input type="text" id="insumo" class="insumo">
+                        <input type="text" id="insumo" class="insumo" name="nombre" placeholder="Introduce un nombre...">
                         <input type="submit" class="primary-button busqueda" value="Buscar">
                     </div>
                 </form>
             </section>
-            
+
             <div id="mapa" class="mapa"></div>
-            <script src="/static/js/mapa.js"></script>
         </main>
-    
+
         <!-- <footer>
             <ul>
                 <li>
@@ -47,16 +51,57 @@
                 </li>
             </ul>
         </footer> -->
-    
+
         </div>
 
         <div class="bg-modal">
             <div class="modal-content">
                 <div class="close" id="close">+</div>
-                <!-- Aquí va el formulario para agregar reporte -->
+
+                    <form method="POST" action="{% url 'agregar-reporte' %}" class="modal-content-container">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="four columns">
+                                <label for="insumo">Insumo</label>
+                                <input class="u-full-width" type="text" placeholder="Escribe el nombre" id="insumo" name="insumo" required>
+                                <datalist id="insumo">
+                                    {% for insumo in insumos %}
+                                        <option value="{{ insumo.nombre }}">
+                                    {% endfor %}
+                                </datalist>
+                            </div>
+                            <div class="four columns">
+                                <label for="tipo">Tipo</label>
+                                <select class="u-full-width dropdown-con-busqueda" id="tipo_crear" name="tipo" required>
+                                    {% for tipo, nombre_tipo in tipos_insumo %}
+                                    <option value="{{ tipo }}">{{ nombre_tipo }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="four columns">
+                                <label for="costo">Costo</label>
+                                <input class="u-full-width" type="number" min="0" step="0.01" placeholder="Introduce el costo" id="costo" name="costo" required>
+                            </div>
+                            <div class="ten columns">
+                                <label for="direccion">Dirección</label>
+                                <input class="u-full-width" type="text" placeholder="Escribe la dirección donde lo encontraste" id="direccion" name="direccion" required>
+                            </div>
+                            <div class="two columns">
+                                <input class="primary-button busqueda" id="buscar-direccion" type="button" value="Buscar">
+                            </div>
+                        </div>
+                        <small id="feedback-direccion">Busca una ubicación...</small>
+                        <input type="hidden" id="latitud" name="latitud" required>
+                        <input type="hidden" id="longitud" name="longitud" required>
+                        <label for="referencia">Referencia de ubicación</label>
+                        <textarea class="u-full-width" placeholder="Indica una breve descripción de dónde conseguiste el insumo..." id="referencia" name="referencia" required></textarea>
+                        <input class="primary-button busqueda" style="float: right;" type="submit" value="Agregar">
+                    </form>
+
             </div>
         </div>
-        <script src="/static/js/reporte.js"></script>
+        <script src="{% static 'js/reporte.js' %}"></script>
+        <script src="{% static 'static/js/mapa.js' %}"></script>
     </div>
 </body>
 </html>

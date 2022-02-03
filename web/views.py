@@ -13,7 +13,7 @@ def obtener_reportes_recientes():
 
 
 def inicio_view(request):
-    plantilla = "inicio.html"
+    plantilla = "index.html"
 
     insumos = Insumo.objects.all()
     reportes = obtener_reportes_recientes()
