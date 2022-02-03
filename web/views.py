@@ -70,7 +70,6 @@ def inicio_view(request):
         "insumos": insumos,
         "tipos_insumo": TIPOS_INSUMO,
         "mapbox_api_key": settings.MAPBOX_API_KEY,
-        "mapquestapi_access_key": settings.MAPQUESTAPI_ACCESS_KEY,
     }
 
     return render(request, plantilla, datos)
@@ -89,15 +88,16 @@ def agregar_reporte_view(request):
         )
 
         costo = data["costo"]
+        direccion = data["direccion"]
         referencia = data["referencia"]
 
-        latitud = data["latitud"]
-        longitud = data["longitud"]
+        latitud, longitud = geocodificar_direccion(direccion)
 
         ReporteInsumo.objects.create(
             insumo=insumo,
             tipo=tipo,
             costo=costo,
+            direccion=direccion,
             referencia=referencia,
             latitud=latitud,
             longitud=longitud,
