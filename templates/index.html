@@ -90,8 +90,8 @@
                         <div class="row">
                             <div class="four columns">
                                 <label for="insumo">Insumo</label>
-                                <input class="u-full-width" type="text" placeholder="Escribe el nombre" id="insumo" name="insumo" required>
-                                <datalist id="insumo">
+                                <input class="u-full-width" list="lista-insumos" type="text" placeholder="Escribe el nombre" id="insumo" name="insumo" required>
+                                <datalist id="lista-insumos">
                                     {% for insumo in insumos %}
                                         <option value="{{ insumo.nombre }}">
                                     {% endfor %}
