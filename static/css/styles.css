@@ -90,6 +90,8 @@ form .busqueda {
     /* Proporción de 4:3 sería mejor para Desktop */
     inline-size: 100%;
     block-size: 600px;
+    background-color: aquamarine;
+    margin-block-start: 20px;
 }
 
 .bg-modal {
@@ -142,8 +144,9 @@ form .busqueda {
         inset-block-start: 0;
         inline-size: 100%;
         block-size: 100%;
-        /* background-color: aquamarine; */
         z-index: -10;
+        margin-block-start: 0;
+
     }
 
     header button {

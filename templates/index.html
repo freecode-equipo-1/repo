@@ -53,7 +53,46 @@
         <div class="bg-modal">
             <div class="modal-content">
                 <div class="close" id="close">+</div>
-                <!-- Aquí va el formulario para agregar reporte -->
+                <h2>Agrega un reporte</h2>
+                <form method="POST" action="{% url 'agregar-reporte' %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="four columns">
+                            <label for="insumo">Insumo</label>
+                            <input class="u-full-width" type="text" placeholder="Escribe el nombre" id="insumo" name="insumo" required>
+                            <datalist id="insumo">
+                                {% for insumo in insumos %}
+                                    <option value="{{ insumo.nombre }}">
+                                {% endfor %}
+                            </datalist>
+                        </div>
+                        <div class="four columns">
+                            <label for="tipo">Tipo</label>
+                            <select class="u-full-width dropdown-con-busqueda" id="tipo_crear" name="tipo" required>
+                                {% for tipo, nombre_tipo in tipos_insumo %}
+                                <option value="{{ tipo }}">{{ nombre_tipo }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="four columns">
+                            <label for="costo">Costo</label>
+                            <input class="u-full-width" type="number" min="0" step="0.01" placeholder="Introduce el costo" id="costo" name="costo" required>
+                        </div>
+                        <div class="ten columns">
+                            <label for="direccion">Dirección</label>
+                            <input class="u-full-width" type="text" placeholder="Escribe la dirección donde lo encontraste" id="direccion" name="direccion" required>
+                        </div>
+                        <div class="two columns">
+                            <input class="button-primary" id="buscar-direccion" type="button" value="Buscar">
+                        </div>
+                    </div>
+                    <small id="feedback-direccion">Busca una ubicación...</small>
+                    <input type="hidden" id="latitud" name="latitud" required>
+                    <input type="hidden" id="longitud" name="longitud" required>
+                    <label for="referencia">Referencia de ubicación</label>
+                    <textarea class="u-full-width" placeholder="Indica una breve descripción de dónde conseguiste el insumo..." id="referencia" name="referencia" required></textarea>
+                    <input class="button-primary" type="submit" value="Agregar">
+                </form>
             </div>
         </div>
         <script src="/static/js/reporte.js"></script>
