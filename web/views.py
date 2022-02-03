@@ -6,7 +6,7 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from django.utils import timezone
 
-from web.models import Insumo, ReporteInsumo, TIPOS_INSUMO
+from web.models import TIPOS_INSUMO, TIPO_REPORTE_NO_VERIFICADO, Insumo, ReporteInsumo
 
 
 def obtener_reportes_recientes():
@@ -120,7 +120,7 @@ def agregar_reporte_view(request):
         # Creamos el reporte
         ReporteInsumo.objects.create(
             insumo=insumo,
-            tipo=tipo,
+            tipo=TIPO_REPORTE_NO_VERIFICADO,
             costo=costo,
             direccion=direccion,
             referencia=referencia,
