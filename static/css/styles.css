@@ -156,6 +156,7 @@ form .busqueda {
 
     .contenido {
         height: 100vh;
+        overflow-y: scroll;
     }
 
     .mapa {
@@ -172,4 +173,23 @@ form .busqueda {
     header button {
         margin-inline-end: 5%;
     }
+}
+
+.creditos {
+    display: block;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 12px;
+}
+
+.wrapper-tabla {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    width: 85%;
+}
+
+.row {
+    gap: 1% !important;
 }
