@@ -37,6 +37,7 @@ def inicio_view(request):
         "insumos": insumos,
         "tipos_insumo": TIPOS_INSUMO,
         "mapbox_api_key": settings.MAPBOX_API_KEY,
+        "mapquestapi_access_key": settings.MAPQUESTAPI_ACCESS_KEY,
     }
 
     return render(request, plantilla, datos)
@@ -47,15 +48,21 @@ def agregar_reporte_view(request):
         # Esto podría hacerse con los Forms de Django, pero
         # así sale relativamente más rápido para un MVP
         data = request.POST
-        insumo_id = data["insumo_id"]
-        tipo = data["tipo"]
+
+        nombre_insumo = data["insumo"].upper()
+        tipo = int(data["tipo"])
+        insumo, _ = Insumo.objects.get_or_create(
+            nombre=nombre_insumo.strip(), tipo=tipo
+        )
+
         costo = data["costo"]
         referencia = data["referencia"]
+
         latitud = data["latitud"]
         longitud = data["longitud"]
 
         ReporteInsumo.objects.create(
-            insumo_id=insumo_id,
+            insumo=insumo,
             tipo=tipo,
             costo=costo,
             referencia=referencia,

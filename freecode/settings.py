@@ -146,3 +146,4 @@ STATICFILES_DIRS = (
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MAPBOX_API_KEY = os.environ.get("MAPBOX_API_KEY")
+MAPQUESTAPI_ACCESS_KEY = os.environ.get("MAPQUESTAPI_ACCESS_KEY")

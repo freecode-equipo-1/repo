@@ -77,7 +77,7 @@
                     </div>
                     <div>
                         <label for="tipo">Tipo</label>
-                        <select class="u-full-width dropdown-con-busqueda" id="tipo" name="tipo">
+                        <select class="u-full-width dropdown-con-busqueda" id="tipo_busqueda" name="tipo">
                             <option value="0">Todos</option>
                             {% for tipo, nombre_tipo in tipos_insumo %}
                             <option value="{{ tipo }}">{{ nombre_tipo }}</option>
@@ -90,101 +90,171 @@
         </div>
 
         <div id="mapa" style='width: 800px; height: 600px;'></div>
-        <script>
-            mapboxgl.accessToken = '{{ mapbox_api_key }}';
-            var map = new mapboxgl.Map({
-            container: 'mapa',
-            center: [-66.9036, 10.4806],
-            zoom: 12.5,
-            style: 'mapbox://styles/mapbox/streets-v11'
-            });
 
-            map.on('load', () => {
-                map.addSource('places', {
-                    'type': 'geojson',
-                    'data': {
-                        'type': 'FeatureCollection',
-                        'features': [
-                            {% for reporte in reportes %}
-                                {
-                                    'type': 'Feature',
-                                    'properties': {
-                                        'description':
-                                        '<strong>{{ reporte.insumo.nombre }}</strong><p>Costo de {{ reporte.costo }}</p>',
-                                        'icon': 'information-15'
-                                    },
-                                    'geometry': {
-                                        'type': 'Point',
-                                        'coordinates': [
-                                            {{ reporte.longitud }},
-                                            {{ reporte.latitud }}
-                                        ]
-                                    }
-                                },
+        <hr />
+
+        <div>
+            <h4>Agrega un reporte</h4>
+            <form method="POST" action="{% url 'agregar-reporte' %}">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="four columns">
+                        <label for="insumo">Insumo</label>
+                        <input class="u-full-width" type="text" placeholder="Escribe el nombre" id="insumo" name="insumo" required>
+                        <datalist id="insumo">
+                            {% for insumo in insumos %}
+                                <option value="{{ insumo.nombre }}">
                             {% endfor %}
-                        ]
-                    }
-                });
-                map.addLayer({
-                    'id': 'places',
-                    'type': 'symbol',
-                    'source': 'places',
-                    'layout': {
-                        'icon-image': '{icon}',
-                        'icon-allow-overlap': true
-                    }
-                });
-
-                // Abrir pop=up (ejemplo tomado de la página de Mapbox)
-                map.on('click', 'places', (e) => {
-                    // Copy coordinates array.
-                    const coordinates = e.features[0].geometry.coordinates.slice();
-                    const description = e.features[0].properties.description;
-
-                    // Ensure that if the map is zoomed out such that multiple
-                    // copies of the feature are visible, the popup appears
-                    // over the copy being pointed to.
-                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                    }
-
-                    new mapboxgl.Popup()
-                    .setLngLat(coordinates)
-                    .setHTML(description)
-                    .addTo(map);
-                });
-
-                // Cursores al entrar y salir de la capa de íconos
-                map.on('mouseenter', 'places', () => {
-                    map.getCanvas().style.cursor = 'pointer';
-                });
-                map.on('mouseleave', 'places', () => {
-                    map.getCanvas().style.cursor = '';
-                });
-
-                // Permitir al usuario centrar el mapa en su cercanía
-                map.addControl(
-                    new mapboxgl.GeolocateControl({
-                        positionOptions: {
-                            enableHighAccuracy: true
-                        },
-                        trackUserLocation: true,
-                        showUserHeading: true
-                    })
-                );
-            });
-
-            $(document).ready(() => {
-                $('.dropdown-con-busqueda').select2();
-            });
-        </script>
+                        </datalist>
+                    </div>
+                    <div class="four columns">
+                        <label for="tipo">Tipo</label>
+                        <select class="u-full-width dropdown-con-busqueda" id="tipo_crear" name="tipo" required>
+                            {% for tipo, nombre_tipo in tipos_insumo %}
+                            <option value="{{ tipo }}">{{ nombre_tipo }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="four columns">
+                        <label for="costo">Costo</label>
+                        <input class="u-full-width" type="number" min="0" step="0.01" placeholder="Introduce el costo" id="costo" name="costo" required>
+                    </div>
+                    <div class="ten columns">
+                        <label for="direccion">Dirección</label>
+                        <input class="u-full-width" type="text" placeholder="Escribe la dirección donde lo encontraste" id="direccion" name="direccion" required>
+                    </div>
+                    <div class="two columns">
+                        <input class="button-primary" id="buscar-direccion" type="button" value="Buscar">
+                    </div>
+                </div>
+                <small id="feedback-direccion">Busca una ubicación...</small>
+                <input type="hidden" id="latitud" name="latitud" required>
+                <input type="hidden" id="longitud" name="longitud" required>
+                <label for="referencia">Referencia de ubicación</label>
+                <textarea class="u-full-width" placeholder="Indica una breve descripción de dónde conseguiste el insumo..." id="referencia" name="referencia" required></textarea>
+                <input class="button-primary" type="submit" value="Agregar">
+            </form>
+        </div>
 
         <footer role="contentinfo">
             <small>Copyright &copy; <time>2022</time></small>
         </footer>
+
     </div>
 
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <script>
+        mapboxgl.accessToken = '{{ mapbox_api_key }}';
+        var map = new mapboxgl.Map({
+        container: 'mapa',
+        center: [-66.9036, 10.4806],
+        zoom: 12.5,
+        style: 'mapbox://styles/mapbox/streets-v11'
+        });
+
+        map.on('load', () => {
+            map.addSource('places', {
+                'type': 'geojson',
+                'data': {
+                    'type': 'FeatureCollection',
+                    'features': [
+                        {% for reporte in reportes %}
+                            {
+                                'type': 'Feature',
+                                'properties': {
+                                    'description':
+                                    '<strong>{{ reporte.insumo.nombre }}</strong><p>Costo de {{ reporte.costo }}</p>',
+                                    'icon': 'information-15'
+                                },
+                                'geometry': {
+                                    'type': 'Point',
+                                    'coordinates': [
+                                        {{ reporte.longitud }},
+                                        {{ reporte.latitud }}
+                                    ]
+                                }
+                            },
+                        {% endfor %}
+                    ]
+                }
+            });
+            map.addLayer({
+                'id': 'places',
+                'type': 'symbol',
+                'source': 'places',
+                'layout': {
+                    'icon-image': '{icon}',
+                    'icon-allow-overlap': true
+                }
+            });
+
+            // Abrir pop=up (ejemplo tomado de la página de Mapbox)
+            map.on('click', 'places', (e) => {
+                // Copy coordinates array.
+                const coordinates = e.features[0].geometry.coordinates.slice();
+                const description = e.features[0].properties.description;
+
+                // Ensure that if the map is zoomed out such that multiple
+                // copies of the feature are visible, the popup appears
+                // over the copy being pointed to.
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
+
+                new mapboxgl.Popup()
+                .setLngLat(coordinates)
+                .setHTML(description)
+                .addTo(map);
+            });
+
+            // Cursores al entrar y salir de la capa de íconos
+            map.on('mouseenter', 'places', () => {
+                map.getCanvas().style.cursor = 'pointer';
+            });
+            map.on('mouseleave', 'places', () => {
+                map.getCanvas().style.cursor = '';
+            });
+
+            // Permitir al usuario centrar el mapa en su cercanía
+            map.addControl(
+                new mapboxgl.GeolocateControl({
+                    positionOptions: {
+                        enableHighAccuracy: true
+                    },
+                    trackUserLocation: true,
+                    showUserHeading: true
+                })
+            );
+        });
+
+        $(document).ready(() => {
+            $('.dropdown-con-busqueda').select2();
+        });
+
+        $("#buscar-direccion").click(() => {
+            const val = $("#direccion").val()
+
+            if (val.length < 3) return;
+
+            $("#feedback-direccion").text("Buscando...")
+            $.ajax({
+                url: `http://www.mapquestapi.com/geocoding/v1/address?key={{mapquestapi_access_key}}&location=${val}`
+            }).done((data) => {
+                const results = data.results;
+
+                if (results.length == 0) {
+                    $("#feedback-direccion").text("No se encontró la dirección");
+                    $("#latitud").val("")
+                    $("#longitud").val("")
+                } else {
+                    const direccion = results[0].locations[0];
+                    $("#feedback-direccion").text(`Dirección encontrada en ${direccion.street}`);
+                    $("#latitud").val(direccion.latLng.lat)
+                    $("#longitud").val(direccion.latLng.lng)
+                }
+            })
+        })
+    </script>
 </body>
 </html>
