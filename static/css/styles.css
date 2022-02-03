@@ -8,7 +8,8 @@ body {
     padding-inline: 10px;
 }
 
-header {
+header,
+footer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -104,6 +105,21 @@ form .busqueda {
     block-size: 600px;
     background-color: aquamarine;
     margin-block-start: 20px;
+}
+
+footer {
+    /* position: fixed;
+    inset-block-end: 0; */
+}
+
+footer a {
+    /* margin-block-end: 0; */
+    color: #7B7B7B;
+    font-size: 15px;
+}
+
+a:visited {
+    color: none;
 }
 
 .bg-modal {
