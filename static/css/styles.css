@@ -4,9 +4,7 @@ body {
 
 .wrapper {
     margin-inline: auto;
-    max-width: 960px;
     padding-inline: 10px;
-    border: 1px solid red;
 }
 
 header {
@@ -90,6 +88,36 @@ form .busqueda {
 .mapa {
     /* Proporción de  2:3 sería mejor para Movile*/
     /* Proporción de 4:3 sería mejor para Desktop */
-    inline-size: 800px;
+    inline-size: 100%;
     block-size: 600px;
+}
+
+@media screen and (min-width: 960px)  {
+    .wrapper {
+        max-inline-size: 100%;
+        padding-inline: 0;
+    }
+
+    .container {
+        inline-size: 33.3%;
+        max-inline-size: 480px;
+        block-size: 100vh;
+        margin-inline-end: 0;
+        float: right;
+        background-color: #fff;
+    }
+
+    .mapa {
+        position: absolute;
+        inset-inline-start: 0;
+        inset-block-start: 0;
+        inline-size: 100%;
+        block-size: 100%;
+        /* background-color: aquamarine; */
+        z-index: -10;
+    }
+
+    header button {
+        margin-inline-end: 5%;
+    }
 }

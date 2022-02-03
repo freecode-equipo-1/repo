@@ -9,11 +9,12 @@
 </head>
 <body>
     <div class="wrapper">
-        <header>
-            <button class="primary-button">Agregar reporte</button>
-        </header>
+        <div class="container">
+            <header>
+                <button class="primary-button">Agregar reporte</button>
+            </header>
         
-        <main>
+            <main>
             <h1>Red de Apoyo</h1>
             
             <section class="search">
@@ -34,17 +35,17 @@
                     </div>
                 </form>
             </section>
-
+            
             <div id="mapa" class="mapa"></div>
             <script>
                 mapboxgl.accessToken = '{{ mapbox_api_key }}';
                 var map = new mapboxgl.Map({
-                container: 'mapa',
-                center: [-66.9036, 10.4806],
-                zoom: 12.5,
-                style: 'mapbox://styles/mapbox/streets-v11'
+                    container: 'mapa',
+                    center: [-66.9036, 10.4806],
+                    zoom: 12.5,
+                    style: 'mapbox://styles/mapbox/streets-v11'
                 });
-
+                
                 map.on('load', () => {
                     map.addSource('places', {
                         'type': 'geojson',
@@ -122,13 +123,15 @@
             </script>
         </main>
     
-    <!-- <footer>
-        <ul>
-            <li>
-                <a href="">Preguntas frecuentes</a>
-            </li>
-        </ul>
-    </footer> -->
+        <!-- <footer>
+            <ul>
+                <li>
+                    <a href="">Preguntas frecuentes</a>
+                </li>
+            </ul>
+        </footer> -->
+    
+        </div>
     </div>
 </body>
 </html>
