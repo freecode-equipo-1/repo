@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    overflow-y: hidden;
 }
 
 .wrapper {
@@ -9,7 +10,7 @@ body {
 
 header {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     block-size: 80px;
     inline-size: 100%;
@@ -22,6 +23,12 @@ header {
     padding-inline: 20px;
     color: #7B7B7B;
     font-size: 15px;
+    cursor: pointer;
+}
+
+button.primary-button {
+    background-color: transparent;
+    text-decoration: underline;
 }
 
 h1 {
@@ -30,6 +37,10 @@ h1 {
 
 main {
     margin-block-start: 100px;
+}
+
+.container {
+    overflow-y: scroll;
 }
 
 .search {
@@ -61,6 +72,7 @@ form .busqueda {
     background-size: 12px 12px;
     background-repeat: no-repeat;
     background-position: 95% center;
+    cursor: pointer;
 }
 
 .select select:focus {
@@ -91,6 +103,8 @@ form .busqueda {
     /* Proporción de 4:3 sería mejor para Desktop */
     inline-size: 100%;
     block-size: 600px;
+    background-color: aquamarine;
+    margin-block-start: 20px;
 }
 
 .bg-modal {
@@ -108,10 +122,9 @@ form .busqueda {
     background-color: #fff;
     inline-size: 90%;
     max-inline-size: 800px;
-    block-size: 90%;
-    max-block-size: 600px;
     border-radius: 4px;
     position: relative;
+    padding: 5px;
 }
 
 .modal-content-container {
@@ -151,8 +164,9 @@ form .busqueda {
         inset-block-start: 0;
         inline-size: 100%;
         block-size: 100%;
-        /* background-color: aquamarine; */
         z-index: -10;
+        margin-block-start: 0;
+
     }
 
     header button {

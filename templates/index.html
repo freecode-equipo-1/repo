@@ -26,7 +26,7 @@
         </div>
         <div class="four columns contenido">
             <header>
-                <button class="primary-button" id="reporte">Agregar reporte</button>
+                <button class="primary-button" id="reporte">¿Tienes alguna información para compartir?</button>
             </header>
 
             <main>
@@ -86,8 +86,9 @@
         <div class="bg-modal">
             <div class="modal-content">
                 <div class="close" id="close">+</div>
-
-                    <form method="POST" action="{% url 'agregar-reporte' %}" class="modal-content-container">
+                <div class="modal-content-container">
+                    <h2>Agrega un reporte</h2>
+                    <form method="POST" action="{% url 'agregar-reporte' %}">
                         {% csrf_token %}
                         <div class="row">
                             <div class="four columns">
@@ -124,9 +125,9 @@
                         <input type="hidden" id="longitud" name="longitud" required>
                         <label for="referencia">Referencia de ubicación</label>
                         <textarea class="u-full-width" placeholder="Indica una breve descripción de dónde conseguiste el insumo..." id="referencia" name="referencia" required></textarea>
-                        <input class="primary-button busqueda" style="float: right;" type="submit" value="Agregar">
+                        <input class="primary-button busqueda" type="submit" value="Agregar">
                     </form>
-
+                </div>
             </div>
         </div>
         <script src="{% static 'js/reporte.js' %}"></script>
