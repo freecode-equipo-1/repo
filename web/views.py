@@ -73,7 +73,7 @@ def inicio_view(request):
 
         nombre = data.get("nombre")
         if nombre:
-            reportes = reportes.filter(insumo__nombre=nombre.strip())
+            reportes = reportes.filter(insumo__nombre__icontains=nombre.strip())
 
         tipo = int(data.get("tipo", 0))
         if tipo > 0:
