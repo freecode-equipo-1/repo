@@ -14,13 +14,17 @@
 
     <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
     <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src='//cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js'></script>
+    <link href="//cdn.datatables.net/1.11.4/css/jquery.dataTables.min.css" rel="stylesheet" />
 </head>
 <body>
     <div class="wrapper row">
-        <div class="mapa-container u-full-width nine columns">
+        <div class="mapa-container u-full-width eight columns">
             <div id="mapa" class="u-full-width" style="width: 100%; height: 100%;"></div>
         </div>
-        <div class="three columns contenido">
+        <div class="four columns contenido">
             <header>
                 <button class="primary-button" id="reporte">Agregar reporte</button>
             </header>
@@ -47,6 +51,26 @@
                     </div>
                 </form>
             </section>
+
+            <h5>Resultados</h5>
+            <div class="wrapper-tabla" style="width: 80%;">
+                <table class="datatable">
+                    <thead>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Costo</th>
+                    </thead>
+                    <tbody>
+                        {% for insumo in insumos %}
+                            <tr>
+                                <td>{{insumo.nombre}}</td>
+                                <td>{{insumo.get_tipo_display}}</td>
+                                <td>{{insumo.costo}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </main>
 
         <!-- <footer>
